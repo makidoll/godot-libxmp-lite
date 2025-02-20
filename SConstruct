@@ -12,17 +12,20 @@ env = SConscript("godot-cpp/SConstruct")
 # - CPPDEFINES are for pre-processor defines
 # - LINKFLAGS are for linking flags
 
-# tweak this if you want to use different folders, or more folders, to store your source code in.
-env.Append(CPPPATH=["src/", "/home/maki/git/libxmp/install/include"])
+# build libxmp
+'''
+mkdir -p libxmp/build libxmp/install
+cmake libxmp -Blibxmp/build -GNinja -DBUILD_LITE=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=libxmp/install
+cmake --build libxmp/build
+cmake --install libxmp/build
+'''
 
-# env.Append(LIBS=["libxmp-lite.a"])
-# env.Append(LIBPATH=["/home/maki/git/libxmp/install/lib"])
+env.Append(CPPPATH=["src/", "libxmp/install/include"])
 
 sources = Glob("src/*.cpp")
+sources.append("libxmp/install/lib/libxmp-lite.a")
 
-sources.append("/home/maki/git/libxmp/install/lib/libxmp-lite.a")
-
-env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME'] = 1
+env["STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME"] = 1
 
 if env["platform"] == "macos":
     library = env.SharedLibrary(
@@ -55,5 +58,6 @@ else:
 Default(library)
 
 # compile_commands.json for vscode
+# run: scons compiledb
 
 env.Tool("compilation_db")
