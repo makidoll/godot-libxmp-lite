@@ -1,5 +1,7 @@
 .sconsign.dblite
-*.os
+src/*.os
+src/*.o
 .cache
 demo/bin/*.so
+demo/bin/*.a
 compile_commands.json
