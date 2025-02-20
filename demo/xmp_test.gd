@@ -18,18 +18,7 @@ func _ready() -> void:
 
 	playback = player.get_stream_playback()
 
-var time_since_last_frame: int = 0;
-
 func _process(_delta: float) -> void:
-	var now := Time.get_ticks_msec()
-	if now - time_since_last_frame < 20:
-		return
-
-	time_since_last_frame = now
-
-	var frame := xmp.frame()
-
-	for i in range(len(frame) * 0.5):
-		playback.push_frame(Vector2(
-			frame[i * 2 + 0], frame[i * 2 + 1]
-		))
+	var frames_available: int = playback.get_frames_available()
+	var frames := xmp.get_frames(frames_available)
+	playback.push_buffer(frames)

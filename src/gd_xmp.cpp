@@ -30,33 +30,31 @@ void GdXmp::init(int sample_rate, String mod_path)
     print_line(mi.mod->type);
 }
 
-PackedFloat32Array GdXmp::frame()
+PackedVector2Array GdXmp::get_frames(int frames_available)
 {
-    if (xmp_play_frame(ctx) != 0) {
-        return PackedFloat32Array();
+    // TODO: use XMP_MAX_FRAMESIZE. is this in bytes?
+    int16_t frames[frames_available * 2];
+
+    int frames_available_bytes = frames_available * 2 * sizeof(int16_t);
+
+    if (xmp_play_buffer(ctx, &frames, frames_available_bytes, 0) < 0) {
+        return PackedVector2Array();
     }
 
-    xmp_frame_info fi;
+    PackedVector2Array gd_frames;
+    gd_frames.resize(frames_available);
 
-    xmp_get_frame_info(ctx, &fi);
-    // if (fi.loop_count > 0) {
-    //     return PackedFloat32Array();
-    // }
-
-    PackedFloat32Array frame;
-    frame.resize(fi.buffer_size);
-
-    int16_t sample;
-    for (int i = 0; i < fi.buffer_size; i++) {
-        sample = ((int16_t*)fi.buffer)[i];
-        frame[i] = float(sample) / float(0x8000);
+    for (int i = 0; i < frames_available; i++) {
+        gd_frames[i] = Vector2(
+            float(frames[i * 2]) / float(0x8000),
+            float(frames[i * 2 + 1]) / float(0x8000));
     }
 
-    return frame;
+    return gd_frames;
 }
 
 void GdXmp::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("init"), &GdXmp::init);
-    ClassDB::bind_method(D_METHOD("frame"), &GdXmp::frame);
+    ClassDB::bind_method(D_METHOD("get_frames"), &GdXmp::get_frames);
 }

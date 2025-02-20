@@ -18,7 +18,7 @@ public:
 
     void init(int sample_rate, String mod_path);
 
-    PackedFloat32Array frame();
+    PackedVector2Array get_frames(int frames_available);
 
 protected:
     static void _bind_methods();
