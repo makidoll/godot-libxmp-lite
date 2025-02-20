@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://hpj03fq4e54e"]
+
+[ext_resource type="Script" path="res://xmp_test.gd" id="1_v430t"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="XmpTest" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("1_v430t")
+player = NodePath("AudioStreamPlayer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="XmpTest"]
