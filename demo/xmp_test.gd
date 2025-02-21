@@ -19,6 +19,9 @@ func _ready() -> void:
 	playback = player.get_stream_playback()
 
 func _process(_delta: float) -> void:
+	if playback == null:
+		return
+		
 	var frames_available: int = playback.get_frames_available()
 	var frames := xmp.get_frames(frames_available)
 	playback.push_buffer(frames)
