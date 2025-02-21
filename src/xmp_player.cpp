@@ -63,7 +63,7 @@ void XmpPlayer::_ready()
     xmp_get_module_info(ctx, &mi);
     // printf("%s (%s)\n", mi.mod->name, mi.mod->type);
 
-    print_line("Loaded: " + String(mi.mod->name) + " (" + String(mi.mod->type) + ")");
+    print_line(vformat("Loaded: %s (%s)", mi.mod->name, mi.mod->type));
 
     // setup generator
 
