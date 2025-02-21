@@ -1,11 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://hpj03fq4e54e"]
-
-[ext_resource type="Script" path="res://xmp_test.gd" id="1_v430t"]
+[gd_scene format=3 uid="uid://hpj03fq4e54e"]
 
 [node name="Node3D" type="Node3D"]
 
-[node name="XmpTest" type="Node" parent="." node_paths=PackedStringArray("player")]
-script = ExtResource("1_v430t")
-player = NodePath("AudioStreamPlayer")
+[node name="XmpPlayer" type="XmpPlayer" parent="."]
+mod_path = "/home/maki/git/godot-libxmp-lite/demo/mods/jt_1999.xm"
+audio_stream_player = NodePath("AudioStreamPlayer")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="XmpTest"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="XmpPlayer"]
+pitch_scale = 0.58

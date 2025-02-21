@@ -1,6 +1,6 @@
 #include "register_types.h"
 
-#include "gd_xmp.h"
+#include "xmp_player.h"
 
 using namespace godot;
 
@@ -10,7 +10,7 @@ void initialize_types(ModuleInitializationLevel p_level)
         return;
     }
 
-    ClassDB::register_class<GdXmp>();
+    ClassDB::register_class<XmpPlayer>();
 }
 
 void uninitialize_types(ModuleInitializationLevel p_level)
